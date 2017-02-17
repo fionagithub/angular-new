@@ -1,0 +1,16 @@
+<!--<weui-tab></weui-tab>-->
+<article class="weui-article" >
+	<h1>{{new.title}}</h1>
+	<section>
+		<h2 class="title">{{new.source}}</h2>
+		<section>
+			<!--<h3>1.1 节标题</h3>-->
+			<p ng-if="new.imageurls[0].url">
+				<img ng-src="{{n.url}}" alt="" ng-repeat="n in new.imageurls">
+			</p>
+			<p>
+				{{new.desc}} 
+			</p>
+		</section> 
+	</section>
+</article>

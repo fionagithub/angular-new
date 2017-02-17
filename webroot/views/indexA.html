@@ -1,0 +1,77 @@
+
+<style>
+	.loading {
+		position: fixed;
+		z-index: 20;
+		top: 50%;
+		left: 50%;
+		margin-left: -25px;
+		margin-top: -27px;
+	}
+</style>
+<div ng-controller='indexACtrl'>
+
+<div class="weui-search-bar {{search?'weui-search-bar_focusing':''}}" id="search_bar" style="position: absolute; top: 50px; width: 100%;">
+	<form class="weui-search-bar__form">
+		<div class="weui-search-bar__box">
+			<i class="weui-icon-search"></i>
+			<input type="search" class="weui-search-bar__input" id="search_input" placeholder="搜索" ng-focus="search=!search" ng-model="searchInput" />
+			<a href="javascript:" class="weui-icon-clear" id="search_clear"></a>
+		</div>
+		<label for="search_input" class="weui-search-bar__label" id="search_text">
+            <i class="weui-icon-search"></i>
+            <span>搜索</span>
+        </label>
+	</form>
+	<a ng-click="search=!search" class="weui-search-bar__cancel-btn" id="search_cancel">取消</a>
+</div>
+
+<div style="position: absolute; top: 94px; width: 100%;">
+	
+<div class="weui-panel weui-panel_access">
+	<div class="weui-panel__hd">图文组合列表
+		<div class="weui-cell__ft" style="display: inline-block; float: right;">
+            <input class="weui-switch" type="checkbox" style="top: -8px;" ng-click="orderBy=!orderBy" />
+       </div>
+	</div>
+	<div class="weui-panel__bd">
+	<!-- '大米'	过滤	 -->
+		<a ng-href="#/news/indexA/detail/{{$index}}" class="weui-media-box weui-media-box_appmsg" ng-repeat="new in news|filter:searchInput|orderBy:'pubDate': orderBy">
+			<!--有图片的情况下-->
+			<div class="weui-media-box__hd" ng-if="new.imageurls[0].url">
+				<img class="weui-media-box__thumb" ng-src="{{new.imageurls[0].url?new.imageurls[0].url:'images/49a3d688d43f879410c83fd5d21b0ef41ad53a78.png'}}" alt=""> 
+			</div>
+			<div class="weui-media-box__bd" ng-if="new.imageurls[0].url">
+				<h4 class="weui-media-box__title">{{new.title?new.title:'加载中...'}}</h4>
+				<p class="weui-media-box__desc">{{new.desc?new.desc:'加载中...'}}</p>
+				 
+			</div>
+			<div ng-if="!new.imageurls[0].url">
+				<div class="weui-media-box">
+					<h4 class="weui-media-box__title">{{new.title?new.title:'加载中...'}}</h4>
+					<p class="weui-media-box__desc">{{new.desc?new.desc:'加载中...'}}</p>
+				</div>
+			</div>
+		</a>
+	</div>
+	<!--如果页面正在请求数据的时候，要隐藏这个按钮-->
+	<div class="weui-panel__ft" ng-show="loading">
+		<a href="javascript:;" class="weui-cell weui-cell_access weui-cell_link">
+			<div class="weui-cell__bd">正在加载...</div>
+			<span class="weui-cell__ft"></span>
+		</a>
+	</div>
+	<!--如果页面请求完数据的时候，显示这个按钮-->
+	<div class="weui-panel__ft" ng-show="!loading">
+		<a class="weui-cell weui-cell_access weui-cell_link" ng-click="loadMore()">
+			<div class="weui-cell__bd">查看更多</div>
+			<span class="weui-cell__ft"></span>
+		</a>
+	</div>
+</div> 
+<div class="loading" ng-show="loading">
+	<img src="images/loading.gif" />
+</div>
+	
+</div>
+</div>
